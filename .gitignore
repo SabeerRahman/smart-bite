@@ -1,0 +1,18 @@
+# Local environments and credentials
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.pnpm-store/
+
+# Local deployment/editor state
+.vercel/
+**/.vercel/
+
+# Browser-test artifacts (kept locally only)
+e2e-screenshots/

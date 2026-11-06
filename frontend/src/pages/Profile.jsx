@@ -1,0 +1,6 @@
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../context/AuthContext'
+import { api, errorMessage } from '../lib/api'
+import { Button, ErrorBox, Field, inputClass } from '../components/ui'
+export function Profile() { const { user, ngoProfile, refresh } = useAuth(); const { register, handleSubmit, formState: { isSubmitting } } = useForm({ defaultValues: user }); const [message, setMessage] = useState(''); const submit = async values => { try { await api.patch(`/users/${user.id}`, values); await refresh(); setMessage('Profile saved.') } catch (e) { setMessage(errorMessage(e)) } }; return <div className="max-w-xl"><h2 className="mb-6 text-2xl font-bold">Profile settings</h2>{message && <ErrorBox>{message}</ErrorBox>}<form className="mt-5 space-y-5 rounded-xl border bg-white p-6" onSubmit={handleSubmit(submit)}><Field label="Name"><input className={inputClass} {...register('name')}/></Field><Field label="Email"><input className={`${inputClass} bg-slate-50`} disabled {...register('email')}/></Field><Field label="Phone"><input className={inputClass} {...register('phone')}/></Field>{ngoProfile && <div className="rounded-lg bg-brand-50 p-4 text-sm">NGO verification: <Status value={ngoProfile.verificationStatus}/></div>}<Button disabled={isSubmitting}>Save changes</Button></form></div> }
